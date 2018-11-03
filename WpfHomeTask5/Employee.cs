@@ -64,7 +64,13 @@ namespace WpfHomeTask5
             Department = department;
             Count++;
         }
-
+        /// <summary>
+        /// создание сотрудника по содежательным полям
+        /// </summary>
+        /// <param name="firstname"></param>
+        /// <param name="lastname"></param>
+        /// <param name="age"></param>
+        /// <param name="department"></param>
         public Employee(string firstname, string lastname, int age, string department)
         {
             FirstName = firstname;

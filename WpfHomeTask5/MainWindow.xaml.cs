@@ -39,7 +39,12 @@ namespace WpfHomeTask5
         {
             DepList.Add(new Department());
         }
-
+        /// <summary>
+        /// Изменение данных о сотруднике
+        /// Сохраняет введеные значения в поля в виде нового сотрудника
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btChange_Click(object sender, RoutedEventArgs e)
         {
             DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
@@ -61,7 +66,11 @@ namespace WpfHomeTask5
             lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
             lvEmployee.SelectedIndex = 0;
         }
-
+        /// <summary>
+        /// выбор сотрудника и вывод в текстовые поля его данных
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //var emp = lvEmployee.Items.CurrentPosition;
@@ -83,7 +92,11 @@ namespace WpfHomeTask5
                 tbDep.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Department;
             }           
         }
-
+        /// <summary>
+        /// при наведении на мышку создается столько подменю сколько сейчас есть департаментов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmi_change_GotFocus(object sender, RoutedEventArgs e)
         {
             if (DepList.Count != cmi_change.Items.Count)
@@ -97,7 +110,11 @@ namespace WpfHomeTask5
                 }
             }
         }
-
+        /// <summary>
+        /// контекстная кнопка удаления департамента
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmi_remove1_Click(object sender, RoutedEventArgs e)
         {
             if (DepList[lvDepartment.SelectedIndex].Workers.Count > 0)
@@ -106,19 +123,31 @@ namespace WpfHomeTask5
             else
                 DepList.RemoveAt(lvDepartment.SelectedIndex);
         }
-
+        /// <summary>
+        /// еонтекстная кнопка удаления сотрудника
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmi_Employee_remove_Click(object sender, RoutedEventArgs e)
         {
             DepList[lvDepartment.SelectedIndex].Workers.RemoveAt(lvEmployee.SelectedIndex);
             lvEmployee.Items.Refresh();
         }
-
+        /// <summary>
+        /// кнопка добавления сотрудника, сохраняет введеные данные из текстовых полей в коллекцию
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btAdd_Click(object sender, RoutedEventArgs e)
         {
             DepList[lvDepartment.SelectedIndex].Workers.Add(
                 new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
         }
-
+        /// <summary>
+        /// проверка корректности ввода значений возраста
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tbAge_TextChanged(object sender, TextChangedEventArgs e)
         {
             int chk;
@@ -138,11 +167,6 @@ namespace WpfHomeTask5
                 MessageBox.Show($"{ex.Message}\nНедопустимое значение возраста");
                 tbAge.Text = "0";
             }           
-        }
-
-        private void btDelete_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
