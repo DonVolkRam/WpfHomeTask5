@@ -44,6 +44,12 @@ namespace WpfHomeTask5
                 Workers.Add(new Employee(Name));            
             Count++;
         }
+
+        public Department(string name)
+        {
+            Name = name;
+        }
+
         public override string ToString()
         {
             return Name.ToString();

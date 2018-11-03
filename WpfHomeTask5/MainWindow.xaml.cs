@@ -27,7 +27,7 @@ namespace WpfHomeTask5
             InitializeComponent();
             DepList.Add(new Department());
             lvDepartment.ItemsSource = DepList;
-//            lvEmployee.ItemsSource = DepList[lvDepartment.Items.CurrentPosition].Workers;
+            //            lvEmployee.ItemsSource = DepList[lvDepartment.Items.CurrentPosition].Workers;
             lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
         }
         /// <summary>
@@ -78,7 +78,7 @@ namespace WpfHomeTask5
             if (lvEmployee.SelectedIndex == -1)
                 lvEmployee.SelectedIndex = 0;
             var emp = lvEmployee.SelectedIndex;
-            
+
             if (DepList[lvDepartment.SelectedIndex].Workers.Count == 0)
             {
                 tbName.Text = tbLastName.Text = tbDep.Text = "Н/Д";
@@ -90,7 +90,7 @@ namespace WpfHomeTask5
                 tbLastName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].LastName;
                 tbAge.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Age.ToString();
                 tbDep.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Department;
-            }           
+            }
         }
         /// <summary>
         /// при наведении на мышку создается столько подменю сколько сейчас есть департаментов
@@ -135,13 +135,30 @@ namespace WpfHomeTask5
         }
         /// <summary>
         /// кнопка добавления сотрудника, сохраняет введеные данные из текстовых полей в коллекцию
+        /// если департамент новый, то создает его и добавляет сотрудника туда
+        /// или же ищет совпадения в имеющихся департаментах и добавляет туда
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btAdd_Click(object sender, RoutedEventArgs e)
         {
-            DepList[lvDepartment.SelectedIndex].Workers.Add(
-                new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
+            if (tbDep.Text == DepList[lvDepartment.SelectedIndex].Name)
+                DepList[lvDepartment.SelectedIndex].Workers.Add(
+                    new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));           
+            else
+            {
+                foreach (var a in DepList)
+                {
+                    if (tbDep.Text == a.Name)
+                    {
+                        a.Workers.Add(new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
+                        return;
+                    }
+                }
+                DepList.Add(new Department(tbDep.Text));
+                DepList[DepList.Count-1].Workers.Add(
+                    new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
+            }
         }
         /// <summary>
         /// проверка корректности ввода значений возраста
@@ -153,8 +170,8 @@ namespace WpfHomeTask5
             int chk;
             try
             {
-                chk= Convert.ToInt32(tbAge.Text);
-                if (chk<0 || chk>150)
+                chk = Convert.ToInt32(tbAge.Text);
+                if (chk < 0 || chk > 150)
                     throw new Exception();
             }
             catch (FormatException ex)
@@ -166,7 +183,7 @@ namespace WpfHomeTask5
             {
                 MessageBox.Show($"{ex.Message}\nНедопустимое значение возраста");
                 tbAge.Text = "0";
-            }           
+            }
         }
     }
 }
