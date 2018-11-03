@@ -39,10 +39,14 @@ namespace WpfHomeTask5
         /// </summary>
         public Department()
         {
-            for (int i = 0; i < Rnd.Next(1,11); i++)
-                Workers.Add(new Employee(Name));
             Name = $"Департамент{Count}";
+            for (int i = 0; i < Rnd.Next(1,11); i++)
+                Workers.Add(new Employee(Name));            
             Count++;
+        }
+        public override string ToString()
+        {
+            return Name.ToString();
         }
     }
 }

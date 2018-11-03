@@ -26,10 +26,8 @@ namespace WpfHomeTask5
         {
             InitializeComponent();
             DepList.Add(new Department());
-            DepartmentList.ItemsSource = DepList;
-            DepartmentList.DisplayMemberPath = "Name";
-            EmployeeList.ItemsSource = DepList[DepartmentList.Items.CurrentPosition].Workers;
-            EmployeeList.DisplayMemberPath = "All";
+            lvDepartment.ItemsSource = DepList;           
+            lvEmployee.ItemsSource = DepList[lvDepartment.Items.CurrentPosition].Workers;
         }
         /// <summary>
         /// Кнопка генерации департамента
@@ -40,14 +38,31 @@ namespace WpfHomeTask5
         {
             DepList.Add(new Department());
         }
+
+
+        private void btChange_Click(object sender, RoutedEventArgs e)
+        {
+            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
+            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;           
+            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age = Convert.ToInt32(tbAge.Text);
+            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department = tbDep.Text;
+        }
         /// <summary>
         /// Вывод сотрудников по выбранному департаменту
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DepartmentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void lvDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EmployeeList.ItemsSource = DepList[DepartmentList.SelectedIndex].Workers;
+            lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
+        }
+
+        private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tbName.Text = DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName;
+            tbLastName.Text = DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName;
+            tbAge.Text = DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age.ToString();
+            tbDep.Text = DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department;
         }
     }
 }
