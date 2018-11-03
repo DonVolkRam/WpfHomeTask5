@@ -91,6 +91,6 @@ namespace WpfHomeTask5
         /// <summary>
         /// Имя файла с базой имен
         /// </summary>
-        string fileName;
+//        string fileName;
     }
 }

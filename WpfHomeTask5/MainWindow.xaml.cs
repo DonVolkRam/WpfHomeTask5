@@ -27,7 +27,8 @@ namespace WpfHomeTask5
             InitializeComponent();
             DepList.Add(new Department());
             lvDepartment.ItemsSource = DepList;
-            lvEmployee.ItemsSource = DepList[lvDepartment.Items.CurrentPosition].Workers;
+//            lvEmployee.ItemsSource = DepList[lvDepartment.Items.CurrentPosition].Workers;
+            lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
         }
         /// <summary>
         /// Кнопка генерации департамента
@@ -41,14 +42,6 @@ namespace WpfHomeTask5
 
         private void btChange_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age = Convert.ToInt32(tbAge.Text);
-            }
-            catch (FormatException ex)
-            {
-                MessageBox.Show($"{ex.Message} Введите корректный возраст");
-            }
             DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
             DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;
             DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department = tbDep.Text;
@@ -62,13 +55,21 @@ namespace WpfHomeTask5
         /// <param name="e"></param>
         private void lvDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //если выделение отсутствует то встать на первую позицию
+            if (lvDepartment.SelectedIndex == -1)
+                lvDepartment.SelectedIndex = 0;
             lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
+            lvEmployee.SelectedIndex = 0;
         }
 
         private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var emp = lvEmployee.Items.CurrentPosition;
-            //var emp = lvEmployee.SelectedIndex;
+            //var emp = lvEmployee.Items.CurrentPosition;
+            //если выделение отсутствует то встать на первую позицию
+            if (lvEmployee.SelectedIndex == -1)
+                lvEmployee.SelectedIndex = 0;
+            var emp = lvEmployee.SelectedIndex;
+            
             if (DepList[lvDepartment.SelectedIndex].Workers.Count == 0)
             {
                 tbName.Text = tbLastName.Text = tbDep.Text = "Н/Д";
@@ -118,11 +119,6 @@ namespace WpfHomeTask5
                 new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
         }
 
-        private void tbAge_TextInput(object sender, TextCompositionEventArgs e)
-        {
-
-        }
-
         private void tbAge_TextChanged(object sender, TextChangedEventArgs e)
         {
             int chk;
@@ -142,6 +138,11 @@ namespace WpfHomeTask5
                 MessageBox.Show($"{ex.Message}\nНедопустимое значение возраста");
                 tbAge.Text = "0";
             }           
+        }
+
+        private void btDelete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
