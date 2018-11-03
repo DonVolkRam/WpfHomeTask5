@@ -64,6 +64,22 @@ namespace WpfHomeTask5
             Department = department;
             Count++;
         }
+
+        public Employee(string firstname, string lastname, int age, string department)
+        {
+            FirstName = firstname;
+            LastName = lastname;
+            Age = age;
+            Department = department;
+            Count++;
+        }
+        public Employee(Employee employee)
+        {
+            FirstName = employee.FirstName;
+            LastName = employee.LastName;
+            Age = employee.Age;
+            Department = Department;
+        }
         /// <summary>
         /// Переопределение вывода в строку главных полей класса
         /// </summary>

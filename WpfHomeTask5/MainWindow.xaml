@@ -11,20 +11,19 @@
             <ColumnDefinition Width="165*"/>
             <ColumnDefinition Width="164*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnGenerate" Content="Создать" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button x:Name="btnGenerate_Copy" Content="Создать" HorizontalAlignment="Left" Margin="163,231,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Label x:Name="lName" Content="Имя" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,231,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <Label x:Name="lLastName" Content="Фамилия" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,263,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <Label x:Name="lAge" Content="Возраст" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,295,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <Label x:Name="lDep" Content="Департамент" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,327,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <ListView x:Name="lvEmployee" Grid.Column="1" HorizontalAlignment="Stretch" Height="213" Margin="10,10,10,10" VerticalAlignment="Top"  SelectedIndex="0" SelectionChanged="lvEmployee_SelectionChanged">
+        <Button x:Name="btnGenerate" Content="Создать случайный департамент" HorizontalAlignment="Stretch" Margin="10,278,10.4,0" VerticalAlignment="Top" Click="Button_Click" Height="57"/>
+        <Label x:Name="lName" Content="Имя" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,278,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
+        <Label x:Name="lLastName" Content="Фамилия" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,310,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
+        <Label x:Name="lAge" Content="Возраст" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,342,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
+        <Label x:Name="lDep" Content="Департамент" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,374,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
+        <ListView x:Name="lvEmployee" Grid.Column="1" HorizontalAlignment="Stretch" Height="256" Margin="10,10,10,10" VerticalAlignment="Top" SelectionChanged="lvEmployee_SelectionChanged" SelectedIndex="0">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="cmi_change" Header="Переместить в ..." Command="{Binding AddNewItem}" 
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}}" GotFocus="cmi_change_GotFocus" ></MenuItem>
-                    <MenuItem Name="cmi_remove" Header="Удалить" Command="{Binding RemoveItem}" 
+                    <MenuItem x:Name="cmi_Employee_remove" Header="Удалить" Command="{Binding RemoveItem}" 
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, 
-                     Path=PlacementTarget.SelectedItem}" />
+                     Path=PlacementTarget.SelectedItem}" Click="cmi_Employee_remove_Click" />
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>
@@ -36,18 +35,25 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="lvDepartment" HorizontalAlignment="Stretch" Height="213" Margin="10,10,10,10" VerticalAlignment="Top" SelectionChanged="lvDepartment_SelectionChanged" SelectedIndex="0">
+        <TextBox x:Name="tbName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="109.6,278,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="129" FontSize="14"/>
+        <TextBox x:Name="tbLastName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="109.6,310,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" Width="129" FontSize="14"/>
+        <TextBox x:Name="tbAge" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="109.6,342,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="129" FontSize="14" TextChanged="tbAge_TextChanged"/>
+        <TextBox x:Name="tbDep" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="109.6,374,0,0" TextWrapping="Wrap" Text="Департамент" VerticalAlignment="Top" Width="129" FontSize="14"/>
+        <Button x:Name="btChange" Content="Изменить" Grid.Column="1" HorizontalAlignment="Left" Margin="252.6,342,0,0" VerticalAlignment="Top" Width="65" Click="btChange_Click" Height="60"/>
+        <ListView x:Name="lvDepartment" HorizontalAlignment="Stretch" Height="256" Margin="10,10,10,10" VerticalAlignment="Top" SelectedIndex="0" SelectionChanged="lvDepartment_SelectionChanged">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="cmi_remove1" Header="Удалить" Command="{Binding RemoveItem}" 
+                        CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Click="cmi_remove1_Click" />
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Department}">Департамент</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Width="256" Header="Департамент"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox x:Name="tbName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="108.6,231,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="129" FontSize="14"/>
-        <TextBox x:Name="tbLastName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="108.6,263,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" Width="129" FontSize="14"/>
-        <TextBox x:Name="tbAge" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="108.6,295,0,0" TextWrapping="Wrap" Text="Возраст" VerticalAlignment="Top" Width="129" FontSize="14"/>
-        <TextBox x:Name="tbDep" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="108.6,327,0,0" TextWrapping="Wrap" Text="Департамент" VerticalAlignment="Top" Width="129" FontSize="14"/>
-        <Button x:Name="btChange" Content="Изменить" Grid.Column="1" HorizontalAlignment="Left" Margin="120.6,376,0,0" VerticalAlignment="Top" Width="75" Click="btChange_Click"/>
+        <Button x:Name="btAdd" Content="Добавить" Grid.Column="1" HorizontalAlignment="Left" Margin="252.6,278,0,0" VerticalAlignment="Top" Width="65" Click="btAdd_Click" Height="60"/>
 
     </Grid>
 </Window>
