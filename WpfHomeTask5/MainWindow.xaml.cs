@@ -41,11 +41,20 @@ namespace WpfHomeTask5
 
 
         private void btChange_Click(object sender, RoutedEventArgs e)
-        {
+        {            
+            try
+            {
+                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age = Convert.ToInt32(tbAge.Text);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show($"{ex.Message} Введите корректный возраст");
+            }
             DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
-            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;           
-            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age = Convert.ToInt32(tbAge.Text);
+            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;
             DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department = tbDep.Text;
+            lvDepartment.Items.Refresh();
+            lvEmployee.Items.Refresh();
         }
         /// <summary>
         /// Вывод сотрудников по выбранному департаменту
@@ -59,10 +68,21 @@ namespace WpfHomeTask5
 
         private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            tbName.Text = DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName;
-            tbLastName.Text = DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName;
-            tbAge.Text = DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age.ToString();
-            tbDep.Text = DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department;
+            var emp = lvEmployee.Items.CurrentPosition;
+            tbName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].FirstName;
+            tbLastName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].LastName;
+            tbAge.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Age.ToString();
+            tbDep.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Department;
+        }
+
+        private void cmi_change_GotFocus(object sender, RoutedEventArgs e)
+        {
+            foreach (var a in DepList)
+            {
+                MenuItem mi_add = new MenuItem();
+                mi_add.Header = a.Name;
+                cmi_change.Items.Add(mi_add);
+            }
         }
     }
 }

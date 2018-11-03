@@ -18,6 +18,15 @@
         <Label x:Name="lAge" Content="Возраст" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,295,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
         <Label x:Name="lDep" Content="Департамент" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,327,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
         <ListView x:Name="lvEmployee" Grid.Column="1" HorizontalAlignment="Stretch" Height="213" Margin="10,10,10,10" VerticalAlignment="Top"  SelectedIndex="0" SelectionChanged="lvEmployee_SelectionChanged">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="cmi_change" Header="Переместить в ..." Command="{Binding AddNewItem}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}}" GotFocus="cmi_change_GotFocus" ></MenuItem>
+                    <MenuItem Name="cmi_remove" Header="Удалить" Command="{Binding RemoveItem}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, 
+                     Path=PlacementTarget.SelectedItem}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=FirstName}">Имя</GridViewColumn>
@@ -30,7 +39,7 @@
         <ListView x:Name="lvDepartment" HorizontalAlignment="Stretch" Height="213" Margin="10,10,10,10" VerticalAlignment="Top" SelectionChanged="lvDepartment_SelectionChanged" SelectedIndex="0">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Department}">Департамент</GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
