@@ -16,18 +16,20 @@ using System.Windows.Shapes;
 
 namespace WpfHomeTask5
 {
+   
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         ObservableCollection<Department> DepList = new ObservableCollection<Department>();
+        Presenter P;
+
         public MainWindow()
         {
             InitializeComponent();
             DepList.Add(new Department());
-            lvDepartment.ItemsSource = DepList;
-            //            lvEmployee.ItemsSource = DepList[lvDepartment.Items.CurrentPosition].Workers;
+            lvDepartment.ItemsSource = DepList;           
             lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
         }
         /// <summary>
@@ -47,11 +49,15 @@ namespace WpfHomeTask5
         /// <param name="e"></param>
         private void btChange_Click(object sender, RoutedEventArgs e)
         {
-            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
-            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;
-            DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department = tbDep.Text;
-            lvDepartment.Items.Refresh();
-            lvEmployee.Items.Refresh();
+            if (DepList[lvDepartment.SelectedIndex].Workers.Count > 0)
+            {
+                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
+                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;
+                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age = Convert.ToInt32(tbAge.Text);
+                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department = tbDep.Text;
+                lvDepartment.Items.Refresh();
+                lvEmployee.Items.Refresh();
+            }
         }
         /// <summary>
         /// Вывод сотрудников по выбранному департаменту
@@ -64,7 +70,7 @@ namespace WpfHomeTask5
             if (lvDepartment.SelectedIndex == -1)
                 lvDepartment.SelectedIndex = 0;
             lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
-            lvEmployee.SelectedIndex = 0;
+            //lvEmployee.SelectedIndex = 0;
         }
         /// <summary>
         /// выбор сотрудника и вывод в текстовые поля его данных
@@ -106,6 +112,7 @@ namespace WpfHomeTask5
                 {
                     MenuItem mi_add = new MenuItem();
                     mi_add.Header = a.Name;
+                    mi_add.Click += (sender1, e1) => this.TransferEmployee(cmi_change.Items.IndexOf(mi_add));
                     cmi_change.Items.Add(mi_add);
                 }
             }
@@ -184,6 +191,13 @@ namespace WpfHomeTask5
                 MessageBox.Show($"{ex.Message}\nНедопустимое значение возраста");
                 tbAge.Text = "0";
             }
+        }
+        public void TransferEmployee(int index)
+        {
+            Employee Worker = new Employee(DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex]);
+            Worker.Department = DepList[index].Name;
+            DepList[index].Workers.Add(Worker);
+            DepList[lvDepartment.SelectedIndex].Workers.RemoveAt(lvEmployee.SelectedIndex);
         }
     }
 }

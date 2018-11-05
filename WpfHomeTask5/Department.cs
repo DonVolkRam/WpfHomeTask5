@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace WpfHomeTask5
     /// <summary>
     /// Класс описатель департамента
     /// </summary>
-    class Department
+    public class Department: IEnumerable
     {
         /// <summary>
         /// Переменная для генерации
@@ -53,6 +54,31 @@ namespace WpfHomeTask5
         public override string ToString()
         {
             return Name.ToString();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            foreach (Employee e in Workers)
+            {
+                yield return (Employee)e;
+            }
+        }
+        private bool IsNullOrEmpty()
+        {
+            bool flag = true;
+
+            if (Workers != null)
+            {
+                if (Workers.Count > 0)
+                {
+                    flag = false;
+                }
+            }
+            return flag;
+        }
+        public Employee this[int index]
+        {
+            get => !IsNullOrEmpty() ? Workers[index] : null;
         }
     }
 }

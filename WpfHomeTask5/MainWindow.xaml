@@ -55,6 +55,8 @@
         </ListView>
         <Button x:Name="btAdd" Content="Добавить" Grid.Column="1" HorizontalAlignment="Left" Margin="252.6,278,0,0" VerticalAlignment="Top" Width="65" Click="btAdd_Click" Height="27"/>
         <Button x:Name="btDelete" Content="Удалить" Grid.Column="1" HorizontalAlignment="Left" Margin="252.6,342,0,0" VerticalAlignment="Top" Width="65" Height="27" Click="cmi_Employee_remove_Click" Visibility="Hidden"/>
+        <Button x:Name="btnLoad" Content="Загрузить" HorizontalAlignment="Left" Margin="10,342,0,0" VerticalAlignment="Top" Width="150" Height="59"/>
+        <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Right" Margin="0,342,10.4,0" VerticalAlignment="Top" Width="150" Height="59"/>
 
     </Grid>
 </Window>
