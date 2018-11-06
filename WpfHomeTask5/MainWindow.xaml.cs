@@ -21,13 +21,18 @@ namespace WpfHomeTask5
     /// </summary>
     public partial class MainWindow : Window
     {
-        ObservableCollection<Department> DepList = new ObservableCollection<Department>();
+        ObservableCollection<Department> DepList { get; set; }
+//        ObservableCollection<Department> depList = new ObservableCollection<Department>();
+
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();           
             DataContext = this;
-            DepList.Add(new Department());
-            //            lvDepartment.ItemsSource = DepList;
+            DepList = new ObservableCollection<Department>
+            {
+                new Department()
+            };
+            lvDepartment.ItemsSource = DepList;
             //            lvEmployee.ItemsSource = DepList[lvDepartment.Items.CurrentPosition].Workers;
             //lvDepartment.SelectedIndex = 0;
             //lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
