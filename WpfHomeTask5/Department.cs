@@ -25,8 +25,7 @@ namespace WpfHomeTask5
         static int Count;
         /// <summary>
         ///наименование департамента 
-        /// </summary>
-        private string name;
+        /// </summary>        
         public string Name
         {
             get { return name; }
@@ -36,6 +35,7 @@ namespace WpfHomeTask5
                 NotifyPropertyChanged("Name");
             }
         }
+        private string name;
         /// <summary>
         /// Список сотрудников в данном департаменте
         /// </summary>

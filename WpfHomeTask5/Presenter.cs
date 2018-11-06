@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WpfHomeTask5
 {
@@ -150,5 +151,25 @@ namespace WpfHomeTask5
             }
         }
 
+        public void CMI_DepRemove()
+        {
+            if (model.DepList[view.DepIndex].Workers.Count > 0)
+                MessageBox.Show("Нальзя удалить департамент в котором есть сотрудники.\n" +
+                    "Сначала переместите сотрудников в другой департамент");
+            else
+                model.DepList.RemoveAt(view.DepIndex);
+        }
+        public void CMI_EmpRemove()
+        {
+            model.DepList[view.DepIndex].Workers.RemoveAt(view.EmpIndex);
+        }
+
+        public void TransferEmployee(int index)
+        {
+            Employee Worker = new Employee(model.DepList[view.DepIndex].Workers[view.EmpIndex]);
+            Worker.Department = model.DepList[index].Name;
+            model.DepList[index].Workers.Add(Worker);
+            model.DepList[view.DepIndex].Workers.RemoveAt(view.EmpIndex);
+        }
     }
 }
