@@ -13,7 +13,7 @@ namespace WpfHomeTask5
     /// Класс описатель департамента
     /// </summary>
     [Serializable]
-    public class Department : INotifyPropertyChanged /*: IEnumerable*/
+    public class Department /*: INotifyPropertyChanged *//*: IEnumerable*/
     {
         /// <summary>
         /// Переменная для генерации
@@ -32,7 +32,7 @@ namespace WpfHomeTask5
             set
             {
                 name = value;
-                NotifyPropertyChanged("Name");
+                //NotifyPropertyChanged("Name");
             }
         }
         private string name;
@@ -45,7 +45,7 @@ namespace WpfHomeTask5
             set
             {
                 workers = value;
-                NotifyPropertyChanged("Workers");
+                //NotifyPropertyChanged("Workers");
             }
         }
         private ObservableCollection<Employee> workers = new ObservableCollection<Employee>();
@@ -76,15 +76,15 @@ namespace WpfHomeTask5
             return Name.ToString();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+//        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged(string propName)
-        {
-//            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+//        public void NotifyPropertyChanged(string propName)
+//        {
+////            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        }
+//            if (PropertyChanged != null)
+//                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+//        }
 
 
         //public IEnumerator GetEnumerator()

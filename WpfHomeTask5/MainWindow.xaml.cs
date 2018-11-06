@@ -73,10 +73,10 @@ namespace WpfHomeTask5
 
         public MainWindow()
         {
-            InitializeComponent();            
-            P = new Presenter(this);
+            InitializeComponent();
             DataContext = this;
-            //DepList = new ObservableCollection<Department>();
+            P = new Presenter(this);           
+            DepList = new ObservableCollection<Department>();
             //Binding binding = new Binding();
             //binding.ElementName = "MainWindow";
             //binding.Path = new PropertyPath("DepList");
