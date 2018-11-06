@@ -21,27 +21,26 @@ namespace WpfHomeTask5
         /// <summary>
         /// Формируемый список департаментов
         /// </summary>
-//        private ObservableCollection<Department> depList;
-//        public ObservableCollection<Department> DepList => this.depList;
+        //        private ObservableCollection<Department> depList;
+        //        public ObservableCollection<Department> DepList => this.depList;
         public ObservableCollection<Department> DepList { get; set; }
         /// <summary>
         /// Номер выбранного департамента
         /// </summary>       
-        public int DepIndex { get => depIndex; set => depIndex = value; }
-        private int depIndex;
+        public int DepIndex { get ; set; }       
         /// <summary>
         /// Номер выбранного сотрудника
         /// </summary>        
-        public int EmpIndex { get => empIndex; set => empIndex = value; }
-        private int empIndex;
+        public int EmpIndex { get ; set ; }
+       
         #endregion
 
-        public Model(string filePath = "data.xml")
+        public Model(string filePath = "..\\..\\data.xml")
         {
             DepList = new ObservableCollection<Department>();
             DepIndex = 0;
             EmpIndex = 0;
-            this.FilePath = filePath;
+            this.FilePath = filePath;           
         }
         /// <summary>
         /// Загрузка коллекции департаментов из базы
@@ -50,7 +49,7 @@ namespace WpfHomeTask5
         {
             try
             {
-                XmlSerializer xmlFormat = new XmlSerializer(typeof(ObservableCollection<Department>));
+                XmlSerializer xmlFormat = new XmlSerializer(typeof(List<Employee>));
                 Stream fStream = new FileStream(FilePath, FileMode.Open,
                 FileAccess.Read);
                 DepList = (ObservableCollection<Department>)xmlFormat.Deserialize(fStream);
@@ -89,7 +88,7 @@ namespace WpfHomeTask5
         {
             get
             {
-                if (DepIndex >= 0 && EmpIndex >= 0 ) { return DepList[DepIndex].Workers; }
+                if (DepIndex >= 0 && EmpIndex >= 0) { return DepList[DepIndex].Workers; }
                 else { return null; }
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace WpfHomeTask5
     /// Класс описатель департамента
     /// </summary>
     [Serializable]
-    public class Department/*: IEnumerable*/
+    public class Department : INotifyPropertyChanged /*: IEnumerable*/
     {
         /// <summary>
         /// Переменная для генерации
@@ -24,12 +25,30 @@ namespace WpfHomeTask5
         static int Count;
         /// <summary>
         ///наименование департамента 
-        /// </summary>
-        public string Name { get; set; }
+        /// </summary>        
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                NotifyPropertyChanged("Name");
+            }
+        }
+        private string name;
         /// <summary>
         /// Список сотрудников в данном департаменте
         /// </summary>
-        public ObservableCollection<Employee> Workers = new ObservableCollection<Employee>();
+        public ObservableCollection<Employee> Workers
+        {
+            get { return workers; }
+            set
+            {
+                workers = value;
+                NotifyPropertyChanged("Workers");
+            }
+        }
+        private ObservableCollection<Employee> workers = new ObservableCollection<Employee>();
         /// <summary>
         /// Инициализация статических параметров класса
         /// </summary>
@@ -42,8 +61,8 @@ namespace WpfHomeTask5
         public Department()
         {
             Name = $"Департамент{Count}";
-            for (int i = 0; i < Rnd.Next(1,11); i++)
-                Workers.Add(new Employee(Name));            
+            for (int i = 0; i < Rnd.Next(1, 11); i++)
+                Workers.Add(new Employee(Name));
             Count++;
         }
 
@@ -56,6 +75,17 @@ namespace WpfHomeTask5
         {
             return Name.ToString();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+//            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+
 
         //public IEnumerator GetEnumerator()
         //{

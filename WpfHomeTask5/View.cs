@@ -12,6 +12,9 @@ namespace WpfHomeTask5
         ObservableCollection<Department> DepList { get; set; }
         ObservableCollection<Employee> EmpList { get; set; }
 
+        int DepIndex { get; set; }
+        int EmpIndex { get; set; }
+
         string FirstName { get; set; }
         string LastName { get; set; }
         string Age { get; set; }
