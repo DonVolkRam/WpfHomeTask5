@@ -25,10 +25,12 @@ namespace WpfHomeTask5
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             DepList.Add(new Department());
-            lvDepartment.ItemsSource = DepList;
+            //            lvDepartment.ItemsSource = DepList;
             //            lvEmployee.ItemsSource = DepList[lvDepartment.Items.CurrentPosition].Workers;
-            lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
+            //lvDepartment.SelectedIndex = 0;
+            //lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
         }
         /// <summary>
         /// Кнопка генерации департамента

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace WpfHomeTask5
     /// <summary>
     /// Класс описатель департамента
     /// </summary>
-    class Department
+    class Department: INotifyPropertyChanged
     {
         /// <summary>
         /// Переменная для генерации
@@ -23,7 +24,19 @@ namespace WpfHomeTask5
         /// <summary>
         ///наименование департамента 
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                if (this.name != value)
+                {
+                    this.name = value;
+                    this.NotifyPropertyChanged("Name");
+                }
+            }
+        }
+        private string name;
         /// <summary>
         /// Список сотрудников в данном департаменте
         /// </summary>
@@ -53,6 +66,14 @@ namespace WpfHomeTask5
         public override string ToString()
         {
             return Name.ToString();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new
+                PropertyChangedEventArgs(propName));
         }
     }
 }
