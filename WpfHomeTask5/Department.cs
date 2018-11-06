@@ -80,7 +80,10 @@ namespace WpfHomeTask5
 
         public void NotifyPropertyChanged(string propName)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+//            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
 

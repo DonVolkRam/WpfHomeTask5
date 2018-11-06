@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,44 +20,28 @@ namespace WpfHomeTask5
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IView, INotifyPropertyChanged
+    public partial class MainWindow : Window, IView
     {
         #region IView
         public string FirstName
         {
             get => tbName.Text;
-            set
-            {
-                tbName.Text = value;
-                NotifyPropertyChanged("FirstName");
-            }
+            set => tbName.Text = value;
         }
         public string LastName
         {
             get => tbLastName.Text;
-            set
-            {
-                tbLastName.Text = value;
-                NotifyPropertyChanged("LastName");
-            }
+            set => tbLastName.Text = value;
         }
         public string Age
         {
             get => tbAge.Text;
-            set
-            {
-                tbAge.Text = value;
-                NotifyPropertyChanged("Age");
-            }
+            set => tbAge.Text = value;
         }
         public string Department
         {
             get => tbDep.Text;
-            set
-            {
-                tbDep.Text = value;
-                NotifyPropertyChanged("Department");
-            }
+            set => tbDep.Text = value;
         }
 
         public int DepIndex
@@ -76,7 +59,7 @@ namespace WpfHomeTask5
         public ObservableCollection<Department> DepList
         {
             get;
-            set;
+            set ;
         }
         public ObservableCollection<Employee> EmpList
         {
@@ -90,10 +73,15 @@ namespace WpfHomeTask5
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
             P = new Presenter(this);
             DataContext = this;
-            DepList = new ObservableCollection<Department>();
+            //DepList = new ObservableCollection<Department>();
+            //Binding binding = new Binding();
+            //binding.ElementName = "MainWindow";
+            //binding.Path = new PropertyPath("DepList");
+            //lvDepartment.SetBinding(ListView.ItemsSourceProperty, binding);
+            //lvDepartment.ItemsSource = DepList;
             //DepList.CollectionChanged
             //EmpList = DepList[lvDepartment.SelectedIndex].Workers;
             btnSave.Click += (s, e) => P.Save();
@@ -107,7 +95,7 @@ namespace WpfHomeTask5
             cmi_EmpRemove.Click += (s, e) => P.CMI_EmpRemove();
             //cmi_change.Click += (s, e) => P.CMI_EmpChange();
             //DepList.Add(new Department());
-            //lvDepartment.ItemsSource = DepList;
+            
             //if (lvDepartment.SelectedIndex > 0)
             //    lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
         }
@@ -156,12 +144,6 @@ namespace WpfHomeTask5
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string propName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
 
         /// <summary>
         /// Кнопка генерации департамента
