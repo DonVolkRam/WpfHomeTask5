@@ -12,6 +12,12 @@ namespace WpfHomeTask5
         private Model model;
         private IView view;
 
+        public Presenter(IView View)
+        {
+            this.view = View;
+            model = new Model();
+        }
+
         public void Load()
         {
             model.Load();
@@ -35,6 +41,7 @@ namespace WpfHomeTask5
 
         public void Save()
         {
+            model.DepList = view.DepList;
             model.Save();
         }
 

@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 
 namespace WpfHomeTask5
 {
+    [Serializable]
     class Model
     {
         #region Данные
@@ -22,7 +23,7 @@ namespace WpfHomeTask5
         /// </summary>
 //        private ObservableCollection<Department> depList;
 //        public ObservableCollection<Department> DepList => this.depList;
-        public ObservableCollection<Department> DepList;
+        public ObservableCollection<Department> DepList { get; set; }
         /// <summary>
         /// Номер выбранного департамента
         /// </summary>       
@@ -44,12 +45,12 @@ namespace WpfHomeTask5
         }
         /// <summary>
         /// Загрузка коллекции департаментов из базы
-        /// </summary>
+        /// </summary>        
         public void Load()
         {
             try
             {
-                XmlSerializer xmlFormat = new XmlSerializer(typeof(List<Employee>));
+                XmlSerializer xmlFormat = new XmlSerializer(typeof(ObservableCollection<Department>));
                 Stream fStream = new FileStream(FilePath, FileMode.Open,
                 FileAccess.Read);
                 DepList = (ObservableCollection<Department>)xmlFormat.Deserialize(fStream);
@@ -62,10 +63,10 @@ namespace WpfHomeTask5
         }
         /// <summary>
         /// Сохранение колекции департаментов в базе
-        /// </summary>
+        /// </summary>        
         public void Save()
         {
-            XmlSerializer xmlFormat = new XmlSerializer(typeof(List<Employee>));
+            XmlSerializer xmlFormat = new XmlSerializer(typeof(ObservableCollection<Department>));
             Stream fStream = new FileStream(FilePath, FileMode.Create, FileAccess.Write);
             xmlFormat.Serialize(fStream, DepList);
             fStream.Close();

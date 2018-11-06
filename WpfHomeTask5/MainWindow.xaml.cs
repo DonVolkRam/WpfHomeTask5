@@ -16,21 +16,62 @@ using System.Windows.Shapes;
 
 namespace WpfHomeTask5
 {
-   
+
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IView
     {
-        ObservableCollection<Department> DepList = new ObservableCollection<Department>();
+        #region IView
+        public string FirstName
+        {
+            get => tbName.Text;
+            set => tbName.Text = value;
+        }
+        public string LastName
+        {
+            get => tbLastName.Text;
+            set => tbLastName.Text = value;
+        }
+        public string Age
+        {
+            get => tbAge.Text;
+            set => tbAge.Text = value;
+        }
+        public string Department
+        {
+            get => tbDep.Text;
+            set => tbDep.Text = value;
+        }
+
+        public ObservableCollection<Department> DepList
+        {
+            get;
+            set;
+        }
+        public ObservableCollection<Employee> EmpList
+        {
+            get => EmpList;
+            set => new ObservableCollection<Department>();
+        }
+        #endregion
+
+        //        ObservableCollection<Department> DepList = new ObservableCollection<Department>();
         Presenter P;
 
         public MainWindow()
         {
             InitializeComponent();
-            DepList.Add(new Department());
-            lvDepartment.ItemsSource = DepList;           
-            lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
+            DataContext = this;
+            P = new Presenter(this);
+            DepList = new ObservableCollection<Department>();
+            //EmpList = new ObservableCollection<Employee>();
+            btnSave.Click += (s, e) => P.Save();
+            btnLoad.Click += (s, e) => P.Load();
+            //            DepList.Add(new Department());
+ //           lvDepartment.ItemsSource = DepList;
+            if (lvDepartment.SelectedIndex > 0)
+                lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
         }
         /// <summary>
         /// Кнопка генерации департамента
@@ -151,7 +192,7 @@ namespace WpfHomeTask5
         {
             if (tbDep.Text == DepList[lvDepartment.SelectedIndex].Name)
                 DepList[lvDepartment.SelectedIndex].Workers.Add(
-                    new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));           
+                    new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
             else
             {
                 foreach (var a in DepList)
@@ -163,7 +204,7 @@ namespace WpfHomeTask5
                     }
                 }
                 DepList.Add(new Department(tbDep.Text));
-                DepList[DepList.Count-1].Workers.Add(
+                DepList[DepList.Count - 1].Workers.Add(
                     new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
             }
         }
