@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace WpfHomeTask5
     /// <summary>
     /// Класс описатель департамента
     /// </summary>
-    public class Department: IEnumerable
+    [Serializable]
+    public class Department : INotifyPropertyChanged /*: IEnumerable*/
     {
         /// <summary>
         /// Переменная для генерации
@@ -24,11 +26,29 @@ namespace WpfHomeTask5
         /// <summary>
         ///наименование департамента 
         /// </summary>
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                NotifyPropertyChanged("Name");
+            }
+        }
         /// <summary>
         /// Список сотрудников в данном департаменте
         /// </summary>
-        public ObservableCollection<Employee> Workers = new ObservableCollection<Employee>();
+        public ObservableCollection<Employee> Workers
+        {
+            get { return workers; }
+            set
+            {
+                workers = value;
+                NotifyPropertyChanged("Workers");
+            }
+        }
+        private ObservableCollection<Employee> workers = new ObservableCollection<Employee>();
         /// <summary>
         /// Инициализация статических параметров класса
         /// </summary>
@@ -41,8 +61,8 @@ namespace WpfHomeTask5
         public Department()
         {
             Name = $"Департамент{Count}";
-            for (int i = 0; i < Rnd.Next(1,11); i++)
-                Workers.Add(new Employee(Name));            
+            for (int i = 0; i < Rnd.Next(1, 11); i++)
+                Workers.Add(new Employee(Name));
             Count++;
         }
 
@@ -56,29 +76,45 @@ namespace WpfHomeTask5
             return Name.ToString();
         }
 
-        public IEnumerator GetEnumerator()
-        {
-            foreach (Employee e in Workers)
-            {
-                yield return (Employee)e;
-            }
-        }
-        private bool IsNullOrEmpty()
-        {
-            bool flag = true;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-            if (Workers != null)
-            {
-                if (Workers.Count > 0)
-                {
-                    flag = false;
-                }
-            }
-            return flag;
-        }
-        public Employee this[int index]
+        public void NotifyPropertyChanged(string propName)
         {
-            get => !IsNullOrEmpty() ? Workers[index] : null;
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
+
+
+        //public IEnumerator GetEnumerator()
+        //{
+        //    foreach (Employee e in Workers)
+        //    {
+        //        yield return (Employee)e;
+        //    }
+        //}
+        //private bool IsNullOrEmpty()
+        //{
+        //    bool flag = true;
+
+        //    if (Workers != null)
+        //    {
+        //        if (Workers.Count > 0)
+        //        {
+        //            flag = false;
+        //        }
+        //    }
+        //    return flag;
+        //}
+        //public Employee this[int index]
+        //{
+        //    get => !IsNullOrEmpty() ? Workers[index] : null;
+        //}
+        //public void Add(Employee E)
+        //{
+        //    Workers.Add(E);
+        //}
+        //public void Add(Department item)
+        //{
+        //    ICollection<Department>.Add(item);
+        //}
     }
 }

@@ -16,88 +16,136 @@ using System.Windows.Shapes;
 
 namespace WpfHomeTask5
 {
-   
+
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IView
     {
-        ObservableCollection<Department> DepList = new ObservableCollection<Department>();
+        #region IView
+        public string FirstName
+        {
+            get => tbName.Text;
+            set => tbName.Text = value;
+        }
+        public string LastName
+        {
+            get => tbLastName.Text;
+            set => tbLastName.Text = value;
+        }
+        public string Age
+        {
+            get => tbAge.Text;
+            set => tbAge.Text = value;
+        }
+        public string Department
+        {
+            get => tbDep.Text;
+            set => tbDep.Text = value;
+        }
+
+        public int DepIndex
+        {
+            get => lvDepartment.SelectedIndex;
+            set => lvDepartment.SelectedIndex = value;
+        }
+
+        public int EmpIndex
+        {
+            get => lvEmployee.SelectedIndex;
+            set => lvEmployee.SelectedIndex = value;
+        }
+
+        public ObservableCollection<Department> DepList
+        {
+            get;
+            set ;
+        }
+        public ObservableCollection<Employee> EmpList
+        {
+            get;
+            set;
+        }
+        #endregion
+
+        //        ObservableCollection<Department> DepList = new ObservableCollection<Department>();
         Presenter P;
 
         public MainWindow()
         {
             InitializeComponent();
-            DepList.Add(new Department());
-            lvDepartment.ItemsSource = DepList;           
-            lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
+            P = new Presenter(this);
+            DataContext = this;
+            //DepList = new ObservableCollection<Department>();
+            //DepList.CollectionChanged
+            //EmpList = DepList[lvDepartment.SelectedIndex].Workers;
+            btnSave.Click += (s, e) => P.Save();
+            btnLoad.Click += (s, e) => P.Load();
+            btnGenerate.Click += (s, e) => P.Generate();
+            btnAdd.Click += (s, e) => P.Add();
+            btnChange.Click += (s, e) => P.Change();
+            lvDepartment.SelectionChanged += (s, e) => P.SelectDep();
+            lvEmployee.SelectionChanged += (s, e) => P.SelectEmp();
+            //DepList.Add(new Department());
+            //lvDepartment.ItemsSource = DepList;
+            //if (lvDepartment.SelectedIndex > 0)
+            //    lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
         }
         /// <summary>
         /// Кнопка генерации департамента
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DepList.Add(new Department());
-        }
-        /// <summary>
-        /// Изменение данных о сотруднике
-        /// Сохраняет введеные значения в поля в виде нового сотрудника
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btChange_Click(object sender, RoutedEventArgs e)
-        {
-            if (DepList[lvDepartment.SelectedIndex].Workers.Count > 0)
-            {
-                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
-                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;
-                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age = Convert.ToInt32(tbAge.Text);
-                DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department = tbDep.Text;
-                lvDepartment.Items.Refresh();
-                lvEmployee.Items.Refresh();
-            }
-        }
-        /// <summary>
-        /// Вывод сотрудников по выбранному департаменту
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void lvDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //если выделение отсутствует то встать на первую позицию
-            if (lvDepartment.SelectedIndex == -1)
-                lvDepartment.SelectedIndex = 0;
-            lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
-            //lvEmployee.SelectedIndex = 0;
-        }
-        /// <summary>
-        /// выбор сотрудника и вывод в текстовые поля его данных
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //var emp = lvEmployee.Items.CurrentPosition;
-            //если выделение отсутствует то встать на первую позицию
-            if (lvEmployee.SelectedIndex == -1)
-                lvEmployee.SelectedIndex = 0;
-            var emp = lvEmployee.SelectedIndex;
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    DepList.Add(new Department());
+        //}
 
-            if (DepList[lvDepartment.SelectedIndex].Workers.Count == 0)
-            {
-                tbName.Text = tbLastName.Text = tbDep.Text = "Н/Д";
-                tbAge.Text = "0";
-            }
-            else
-            {
-                tbName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].FirstName;
-                tbLastName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].LastName;
-                tbAge.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Age.ToString();
-                tbDep.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Department;
-            }
-        }
+
+        //private void btChange_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (DepList[lvDepartment.SelectedIndex].Workers.Count > 0)
+        //    {
+        //        DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
+        //        DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;
+        //        DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age = Convert.ToInt32(tbAge.Text);
+        //        DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department = tbDep.Text;
+        //        lvDepartment.Items.Refresh();
+        //        lvEmployee.Items.Refresh();
+        //    }
+        //}
+
+        //private void lvDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    //если выделение отсутствует то встать на первую позицию
+        //    if (lvDepartment.SelectedIndex == -1)
+        //        lvDepartment.SelectedIndex = 0;
+        //    lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
+        //    //lvEmployee.SelectedIndex = 0;
+        //}
+
+
+        //private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    //var emp = lvEmployee.Items.CurrentPosition;
+        //    //если выделение отсутствует то встать на первую позицию
+        //    if (lvEmployee.SelectedIndex == -1)
+        //        lvEmployee.SelectedIndex = 0;
+        //    var emp = lvEmployee.SelectedIndex;
+
+        //    if (DepList[lvDepartment.SelectedIndex].Workers.Count == 0)
+        //    {
+        //        tbName.Text = tbLastName.Text = tbDep.Text = "Н/Д";
+        //        tbAge.Text = "0";
+        //    }
+        //    else
+        //    {
+        //        tbName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].FirstName;
+        //        tbLastName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].LastName;
+        //        tbAge.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Age.ToString();
+        //        tbDep.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Department;
+        //    }
+        //}
         /// <summary>
         /// при наведении на мышку создается столько подменю сколько сейчас есть департаментов
         /// </summary>
@@ -140,33 +188,27 @@ namespace WpfHomeTask5
             DepList[lvDepartment.SelectedIndex].Workers.RemoveAt(lvEmployee.SelectedIndex);
             lvEmployee.Items.Refresh();
         }
-        /// <summary>
-        /// кнопка добавления сотрудника, сохраняет введеные данные из текстовых полей в коллекцию
-        /// если департамент новый, то создает его и добавляет сотрудника туда
-        /// или же ищет совпадения в имеющихся департаментах и добавляет туда
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (tbDep.Text == DepList[lvDepartment.SelectedIndex].Name)
-                DepList[lvDepartment.SelectedIndex].Workers.Add(
-                    new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));           
-            else
-            {
-                foreach (var a in DepList)
-                {
-                    if (tbDep.Text == a.Name)
-                    {
-                        a.Workers.Add(new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
-                        return;
-                    }
-                }
-                DepList.Add(new Department(tbDep.Text));
-                DepList[DepList.Count-1].Workers.Add(
-                    new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
-            }
-        }
+
+        //private void btAdd_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (tbDep.Text == DepList[lvDepartment.SelectedIndex].Name)
+        //        DepList[lvDepartment.SelectedIndex].Workers.Add(
+        //            new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
+        //    else
+        //    {
+        //        foreach (var a in DepList)
+        //        {
+        //            if (tbDep.Text == a.Name)
+        //            {
+        //                a.Workers.Add(new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
+        //                return;
+        //            }
+        //        }
+        //        DepList.Add(new Department(tbDep.Text));
+        //        DepList[DepList.Count - 1].Workers.Add(
+        //            new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
+        //    }
+        //}
         /// <summary>
         /// проверка корректности ввода значений возраста
         /// </summary>
