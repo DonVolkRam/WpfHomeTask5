@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,28 +21,44 @@ namespace WpfHomeTask5
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IView
+    public partial class MainWindow : Window, IView, INotifyPropertyChanged
     {
         #region IView
         public string FirstName
         {
             get => tbName.Text;
-            set => tbName.Text = value;
+            set
+            {
+                tbName.Text = value;
+                NotifyPropertyChanged("FirstName");
+            }
         }
         public string LastName
         {
             get => tbLastName.Text;
-            set => tbLastName.Text = value;
+            set
+            {
+                tbLastName.Text = value;
+                NotifyPropertyChanged("LastName");
+            }
         }
         public string Age
         {
             get => tbAge.Text;
-            set => tbAge.Text = value;
+            set
+            {
+                tbAge.Text = value;
+                NotifyPropertyChanged("Age");
+            }
         }
         public string Department
         {
             get => tbDep.Text;
-            set => tbDep.Text = value;
+            set
+            {
+                tbDep.Text = value;
+                NotifyPropertyChanged("Department");
+            }
         }
 
         public int DepIndex
@@ -59,7 +76,7 @@ namespace WpfHomeTask5
         public ObservableCollection<Department> DepList
         {
             get;
-            set ;
+            set;
         }
         public ObservableCollection<Employee> EmpList
         {
@@ -76,7 +93,7 @@ namespace WpfHomeTask5
             InitializeComponent();
             P = new Presenter(this);
             DataContext = this;
-            //DepList = new ObservableCollection<Department>();
+            DepList = new ObservableCollection<Department>();
             //DepList.CollectionChanged
             //EmpList = DepList[lvDepartment.SelectedIndex].Workers;
             btnSave.Click += (s, e) => P.Save();
@@ -86,8 +103,8 @@ namespace WpfHomeTask5
             btnChange.Click += (s, e) => P.Change();
             lvDepartment.SelectionChanged += (s, e) => P.SelectDep();
             lvEmployee.SelectionChanged += (s, e) => P.SelectEmp();
-            cmi_remove1.Click += (s, e) => P.CMI_DepRemove();
-            cmi_Employee_remove.Click += (s, e) => P.CMI_EmpRemove();
+            cmi_DepRemove.Click += (s, e) => P.CMI_DepRemove();
+            cmi_EmpRemove.Click += (s, e) => P.CMI_EmpRemove();
             //cmi_change.Click += (s, e) => P.CMI_EmpChange();
             //DepList.Add(new Department());
             //lvDepartment.ItemsSource = DepList;
@@ -101,15 +118,15 @@ namespace WpfHomeTask5
         /// <param name="e"></param>
         private void cmi_change_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (DepList.Count != cmi_change.Items.Count)
+            if (DepList.Count != cmi_Change.Items.Count)
             {
-                cmi_change.Items.Clear();
+                cmi_Change.Items.Clear();
                 foreach (var a in DepList)
                 {
                     MenuItem mi_add = new MenuItem();
                     mi_add.Header = a.Name;
-                    mi_add.Click += (sender1, e1) => this.P.TransferEmployee(cmi_change.Items.IndexOf(mi_add));
-                    cmi_change.Items.Add(mi_add);
+                    mi_add.Click += (sender1, e1) => this.P.TransferEmployee(cmi_Change.Items.IndexOf(mi_add));
+                    cmi_Change.Items.Add(mi_add);
                 }
             }
         }
@@ -139,6 +156,12 @@ namespace WpfHomeTask5
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
 
         /// <summary>
         /// Кнопка генерации департамента
