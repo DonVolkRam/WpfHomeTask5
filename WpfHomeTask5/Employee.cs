@@ -21,11 +21,19 @@ namespace WpfHomeTask5
         /// <summary>
         /// Фамилия
         /// </summary>
-        public string LastName { get; set; }
+        public string FamilyName { get; set; }
+        /// <summary>
+        /// Отчество
+        /// </summary>
+        public string FatherName { get; set; }
         /// <summary>
         /// Возраст
         /// </summary>
         public int Age { get; set; }
+
+        public int BirtDay { get; set; }
+        public int BirtMounth { get; set; }
+        public int BirtYear { get; set; }
         /// <summary>
         /// Департамент
         /// </summary>
@@ -59,7 +67,8 @@ namespace WpfHomeTask5
         public Employee(string department)
         {
             FirstName = $"Имя{Count}";
-            LastName = $"Фамилия{Count}";
+            FamilyName = $"Фамилия{Count}";
+            FatherName = $"Отчество{Count}";
             Age = Rnd.Next(18, 60);
             Department = department;
             Count++;
@@ -71,20 +80,14 @@ namespace WpfHomeTask5
         /// <param name="lastname"></param>
         /// <param name="age"></param>
         /// <param name="department"></param>
-        public Employee(string firstname, string lastname, int age, string department)
+        public Employee(string firstname, string lastname, string fathername, int age, string department)
         {
             FirstName = firstname;
-            LastName = lastname;
+            FamilyName = lastname;
+            FatherName = fathername;
             Age = age;
             Department = department;
             Count++;
-        }
-        public Employee(Employee employee)
-        {
-            FirstName = employee.FirstName;
-            LastName = employee.LastName;
-            Age = employee.Age;
-            Department = Department;
         }
         /// <summary>
         /// Переопределение вывода в строку главных полей класса
@@ -92,7 +95,7 @@ namespace WpfHomeTask5
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{FirstName} {LastName} {Age} лет"; 
+            return $"{FirstName} {FamilyName} {Age} лет"; 
         }
         /// <summary>
         /// Имя файла с базой имен

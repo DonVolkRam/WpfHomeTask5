@@ -41,7 +41,7 @@ namespace WpfHomeTask5
                     var temp = model.DepList[model.DepIndex].Workers[model.EmpIndex];
 
                     view.FirstName = temp.FirstName;
-                    view.LastName = temp.LastName;
+                    view.LastName = temp.FamilyName;
                     view.Age = temp.Age.ToString();
                     view.Department = temp.Department;
                 }
@@ -60,7 +60,9 @@ namespace WpfHomeTask5
         /// </summary>
         public void Generate()
         {
-            model.DepList.Add(new Department());
+            Department dep = new Department();
+            model.DepList.Add(dep);
+            Console.WriteLine(dep.Name);
         }
         /// <summary>
         /// кнопка добавления сотрудника, сохраняет введеные данные из текстовых полей в коллекцию
@@ -109,7 +111,7 @@ namespace WpfHomeTask5
             if (model.DepList[view.DepIndex].Workers.Count > 0)
             {
                 model.DepList[view.DepIndex].Workers[view.EmpIndex].FirstName = view.FirstName;
-                model.DepList[view.DepIndex].Workers[view.EmpIndex].LastName = view.LastName;
+                model.DepList[view.DepIndex].Workers[view.EmpIndex].FamilyName = view.LastName;
                 model.DepList[view.DepIndex].Workers[view.EmpIndex].Age = Convert.ToInt32(view.Age);
                 model.DepList[view.DepIndex].Workers[view.EmpIndex].Department = view.Department;
             }
@@ -145,7 +147,7 @@ namespace WpfHomeTask5
             else
             {
                 view.FirstName = temp.FirstName;
-                view.LastName = temp.LastName;
+                view.LastName = temp.FamilyName;
                 view.Age = temp.Age.ToString();
                 view.Department = temp.Department;
             }

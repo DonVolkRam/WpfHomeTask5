@@ -20,63 +20,15 @@ namespace WpfHomeTask5
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IView
+    public partial class MainWindow : Window
     {
-        #region IView
-        public string FirstName
-        {
-            get => tbName.Text;
-            set => tbName.Text = value;
-        }
-        public string LastName
-        {
-            get => tbLastName.Text;
-            set => tbLastName.Text = value;
-        }
-        public string Age
-        {
-            get => tbAge.Text;
-            set => tbAge.Text = value;
-        }
-        public string Department
-        {
-            get => tbDep.Text;
-            set => tbDep.Text = value;
-        }
-
-        public int DepIndex
-        {
-            get => lvDepartment.SelectedIndex;
-            set => lvDepartment.SelectedIndex = value;
-        }
-
-        public int EmpIndex
-        {
-            get => lvEmployee.SelectedIndex;
-            set => lvEmployee.SelectedIndex = value;
-        }
-
-        public ObservableCollection<Department> DepList
-        {
-            get;
-            set ;
-        }
-        public ObservableCollection<Employee> EmpList
-        {
-            get;
-            set;
-        }
-        #endregion
-
-        //        ObservableCollection<Department> DepList = new ObservableCollection<Department>();
-        Presenter P;
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
-            P = new Presenter(this);           
-            DepList = new ObservableCollection<Department>();
+          
+           
             //Binding binding = new Binding();
             //binding.ElementName = "MainWindow";
             //binding.Path = new PropertyPath("DepList");
@@ -104,20 +56,20 @@ namespace WpfHomeTask5
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cmi_change_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (DepList.Count != cmi_Change.Items.Count)
-            {
-                cmi_Change.Items.Clear();
-                foreach (var a in DepList)
-                {
-                    MenuItem mi_add = new MenuItem();
-                    mi_add.Header = a.Name;
-                    mi_add.Click += (sender1, e1) => this.P.TransferEmployee(cmi_Change.Items.IndexOf(mi_add));
-                    cmi_Change.Items.Add(mi_add);
-                }
-            }
-        }
+        //private void cmi_change_GotFocus(object sender, RoutedEventArgs e)
+        //{
+        //    if (DepList.Count != cmi_Change.Items.Count)
+        //    {
+        //        cmi_Change.Items.Clear();
+        //        foreach (var a in DepList)
+        //        {
+        //            MenuItem mi_add = new MenuItem();
+        //            mi_add.Header = a.Name;
+        //            mi_add.Click += (sender1, e1) => this.P.TransferEmployee(cmi_Change.Items.IndexOf(mi_add));
+        //            cmi_Change.Items.Add(mi_add);
+        //        }
+        //    }
+        //}
         /// <summary>
         /// проверка корректности ввода значений возраста
         /// </summary>
@@ -142,109 +94,6 @@ namespace WpfHomeTask5
                 MessageBox.Show($"{ex.Message}\nНедопустимое значение возраста");
                 tbAge.Text = "0";
             }
-        }
-
-
-        /// <summary>
-        /// Кнопка генерации департамента
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    DepList.Add(new Department());
-        //}
-        //private void btChange_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (DepList[lvDepartment.SelectedIndex].Workers.Count > 0)
-        //    {
-        //        DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].FirstName = tbName.Text;
-        //        DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].LastName = tbLastName.Text;
-        //        DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Age = Convert.ToInt32(tbAge.Text);
-        //        DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex].Department = tbDep.Text;
-        //        lvDepartment.Items.Refresh();
-        //        lvEmployee.Items.Refresh();
-        //    }
-        //}
-
-        //private void lvDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    //если выделение отсутствует то встать на первую позицию
-        //    if (lvDepartment.SelectedIndex == -1)
-        //        lvDepartment.SelectedIndex = 0;
-        //    lvEmployee.ItemsSource = DepList[lvDepartment.SelectedIndex].Workers;
-        //    //lvEmployee.SelectedIndex = 0;
-        //}
-        //private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    //var emp = lvEmployee.Items.CurrentPosition;
-        //    //если выделение отсутствует то встать на первую позицию
-        //    if (lvEmployee.SelectedIndex == -1)
-        //        lvEmployee.SelectedIndex = 0;
-        //    var emp = lvEmployee.SelectedIndex;
-
-        //    if (DepList[lvDepartment.SelectedIndex].Workers.Count == 0)
-        //    {
-        //        tbName.Text = tbLastName.Text = tbDep.Text = "Н/Д";
-        //        tbAge.Text = "0";
-        //    }
-        //    else
-        //    {
-        //        tbName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].FirstName;
-        //        tbLastName.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].LastName;
-        //        tbAge.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Age.ToString();
-        //        tbDep.Text = DepList[lvDepartment.SelectedIndex].Workers[emp].Department;
-        //    }
-        //}
-        /// <summary>
-        /// контекстная кнопка удаления департамента
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void cmi_remove1_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (DepList[lvDepartment.SelectedIndex].Workers.Count > 0)
-        //        MessageBox.Show("Нальзя удалить департамент в котором есть сотрудники.\n" +
-        //            "Сначала переместите сотрудников в другой департамент");
-        //    else
-        //        DepList.RemoveAt(lvDepartment.SelectedIndex);
-        //}
-        /// <summary>
-        /// еонтекстная кнопка удаления сотрудника
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void cmi_Employee_remove_Click(object sender, RoutedEventArgs e)
-        //{
-        //    DepList[lvDepartment.SelectedIndex].Workers.RemoveAt(lvEmployee.SelectedIndex);
-        //    lvEmployee.Items.Refresh();
-        //}
-        //private void btAdd_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (tbDep.Text == DepList[lvDepartment.SelectedIndex].Name)
-        //        DepList[lvDepartment.SelectedIndex].Workers.Add(
-        //            new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
-        //    else
-        //    {
-        //        foreach (var a in DepList)
-        //        {
-        //            if (tbDep.Text == a.Name)
-        //            {
-        //                a.Workers.Add(new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
-        //                return;
-        //            }
-        //        }
-        //        DepList.Add(new Department(tbDep.Text));
-        //        DepList[DepList.Count - 1].Workers.Add(
-        //            new Employee(tbName.Text, tbLastName.Text, Convert.ToInt32(tbAge.Text), tbDep.Text));
-        //    }
-        //}
-        //public void TransferEmployee(int index)
-        //{
-        //    Employee Worker = new Employee(DepList[lvDepartment.SelectedIndex].Workers[lvEmployee.SelectedIndex]);
-        //    Worker.Department = DepList[index].Name;
-        //    DepList[index].Workers.Add(Worker);
-        //    DepList[lvDepartment.SelectedIndex].Workers.RemoveAt(lvEmployee.SelectedIndex);
-        //}
+        }        
     }
 }
