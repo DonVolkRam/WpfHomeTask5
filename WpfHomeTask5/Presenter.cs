@@ -20,6 +20,10 @@ namespace WpfHomeTask5
             model.DepList.CollectionChanged += (s, e) => CollectionChange();
         }
 
+        public Presenter()
+        {
+        }
+
         public void CollectionChange()
         {
             view.DepList = model.DepList;            
@@ -41,7 +45,7 @@ namespace WpfHomeTask5
                     var temp = model.DepList[model.DepIndex].Workers[model.EmpIndex];
 
                     view.FirstName = temp.FirstName;
-                    view.LastName = temp.FamilyName;
+                    view.FamilyName = temp.FamilyName;
                     view.Age = temp.Age.ToString();
                     view.Department = temp.Department;
                 }
@@ -75,7 +79,8 @@ namespace WpfHomeTask5
                 model.DepList[view.DepIndex].Workers.Add(
                     new Employee(
                         view.FirstName,
-                        view.LastName,
+                        view.FamilyName,
+                        view.FatherName,
                         Convert.ToInt32(view.Age),
                         view.Department));
             else
@@ -87,7 +92,8 @@ namespace WpfHomeTask5
                         a.Workers.Add(
                             new Employee(
                                 view.FirstName,
-                                view.LastName,
+                                view.FamilyName,
+                                view.FatherName,
                                 Convert.ToInt32(view.Age),
                                 view.Department));
                         return;
@@ -97,7 +103,8 @@ namespace WpfHomeTask5
                 model.DepList[model.DepIndex - 1].Workers.Add(
                     new Employee(
                                 view.FirstName,
-                                view.LastName,
+                                view.FamilyName,
+                                view.FatherName,
                                 Convert.ToInt32(view.Age),
                                 view.Department));
             }
@@ -111,7 +118,7 @@ namespace WpfHomeTask5
             if (model.DepList[view.DepIndex].Workers.Count > 0)
             {
                 model.DepList[view.DepIndex].Workers[view.EmpIndex].FirstName = view.FirstName;
-                model.DepList[view.DepIndex].Workers[view.EmpIndex].FamilyName = view.LastName;
+                model.DepList[view.DepIndex].Workers[view.EmpIndex].FamilyName = view.FamilyName;
                 model.DepList[view.DepIndex].Workers[view.EmpIndex].Age = Convert.ToInt32(view.Age);
                 model.DepList[view.DepIndex].Workers[view.EmpIndex].Department = view.Department;
             }
@@ -141,13 +148,13 @@ namespace WpfHomeTask5
             var temp = model.DepList[depI].Workers[empI];
             if (model.DepList[depI].Workers.Count == 0)
             {
-                view.FirstName = view.LastName = view.Department = "Н/Д";
+                view.FirstName = view.FamilyName = view.Department = "Н/Д";
                 view.Age = "0";
             }
             else
             {
                 view.FirstName = temp.FirstName;
-                view.LastName = temp.FamilyName;
+                view.FamilyName = temp.FamilyName;
                 view.Age = temp.Age.ToString();
                 view.Department = temp.Department;
             }
@@ -168,7 +175,7 @@ namespace WpfHomeTask5
 
         public void TransferEmployee(int index)
         {
-            Employee Worker = new Employee(model.DepList[view.DepIndex].Workers[view.EmpIndex]);
+            Employee Worker = model.DepList[view.DepIndex].Workers[view.EmpIndex];
             Worker.Department = model.DepList[index].Name;
             model.DepList[index].Workers.Add(Worker);
             model.DepList[view.DepIndex].Workers.RemoveAt(view.EmpIndex);

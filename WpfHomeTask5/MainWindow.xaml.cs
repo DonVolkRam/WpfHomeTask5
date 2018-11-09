@@ -27,8 +27,10 @@ namespace WpfHomeTask5
         {
             InitializeComponent();
             DataContext = this;
-          
-           
+
+            //ApplicationViewModel.GenerateEmployee();
+            ApplicationViewModel.ReadToConsole();
+            Presenter P = new Presenter();
             //Binding binding = new Binding();
             //binding.ElementName = "MainWindow";
             //binding.Path = new PropertyPath("DepList");
@@ -56,20 +58,20 @@ namespace WpfHomeTask5
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        //private void cmi_change_GotFocus(object sender, RoutedEventArgs e)
-        //{
-        //    if (DepList.Count != cmi_Change.Items.Count)
-        //    {
-        //        cmi_Change.Items.Clear();
-        //        foreach (var a in DepList)
-        //        {
-        //            MenuItem mi_add = new MenuItem();
-        //            mi_add.Header = a.Name;
-        //            mi_add.Click += (sender1, e1) => this.P.TransferEmployee(cmi_Change.Items.IndexOf(mi_add));
-        //            cmi_Change.Items.Add(mi_add);
-        //        }
-        //    }
-        //}
+        private void cmi_change_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //    if (DepList.Count != cmi_Change.Items.Count)
+            //    {
+            //        cmi_Change.Items.Clear();
+            //        foreach (var a in DepList)
+            //        {
+            //            MenuItem mi_add = new MenuItem();
+            //            mi_add.Header = a.Name;
+            //            mi_add.Click += (sender1, e1) => this.P.TransferEmployee(cmi_Change.Items.IndexOf(mi_add));
+            //            cmi_Change.Items.Add(mi_add);
+            //        }
+            //    }
+        }
         /// <summary>
         /// проверка корректности ввода значений возраста
         /// </summary>

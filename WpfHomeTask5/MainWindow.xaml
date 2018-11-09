@@ -5,18 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:local="clr-namespace:WpfHomeTask5"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="664.773">
-    <Grid>
+        Title="MainWindow" Height="418" Width="664.773">
+    <Grid Margin="0,0,0,2">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="165*"/>
-            <ColumnDefinition Width="164*"/>
+            <ColumnDefinition Width="385*"/>
+            <ColumnDefinition Width="272*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnGenerate" Content="Создать случайный департамент" HorizontalAlignment="Stretch" Margin="10,278,10.4,0" VerticalAlignment="Top" Height="57"/>
-        <Label x:Name="lName" Content="Имя" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,278,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <Label x:Name="lLastName" Content="Фамилия" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,310,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <Label x:Name="lAge" Content="Возраст" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,342,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <Label x:Name="lDep" Content="Департамент" Grid.Column="1" HorizontalAlignment="Left" Margin="10.6,374,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <ListView x:Name="lvEmployee" Grid.Column="1" HorizontalAlignment="Right" Height="256" Margin="0,10,10,0" VerticalAlignment="Top" Width="308">
+        <Button x:Name="btnGenerate" Content="Создать случайный департамент" HorizontalAlignment="Stretch" Margin="15,323,147,0" VerticalAlignment="Top" Height="27" Grid.Column="1" RenderTransformOrigin="0.546,0.133"/>
+        <Label x:Name="lFirstName" Content="Имя" Grid.Column="1" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
+        <Label x:Name="lFamilyName" Content="Фамилия" Grid.Column="1" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
+        <Label x:Name="lFatherName" Content="Отчество" Grid.Column="1" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
+        <Label x:Name="lAge" Content="Дата Рождения" Grid.Column="1" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Height="27" Width="115" FontSize="14"/>
+        <Label x:Name="lDep" Content="Департамент" Grid.Column="1" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
+        <ListView x:Name="lvEmployee" HorizontalAlignment="Stretch" Height="256" Margin="10,122,10,0" VerticalAlignment="Top">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="cmi_Change" Header="Переместить в ..." Command="{Binding AddNewItem}" 
@@ -29,18 +30,20 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=FirstName}">Имя</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=LastName}">Фамилия</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Age}">Возраст</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=FamilyName}">Фамилия</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=FatherName}">Отчество</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Age}">Дата Рождения</GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Department}">Департамент</GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox x:Name="tbName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="109.6,278,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="129" FontSize="14"/>
-        <TextBox x:Name="tbLastName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="109.6,310,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" Width="129" FontSize="14"/>
-        <TextBox x:Name="tbAge" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="109.6,342,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="129" FontSize="14" TextChanged="tbAge_TextChanged"/>
-        <TextBox x:Name="tbDep" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="109.6,374,0,0" TextWrapping="Wrap" Text="Департамент" VerticalAlignment="Top" Width="129" FontSize="14"/>
-        <Button x:Name="btnChange" Content="Изменить" Grid.Column="1" HorizontalAlignment="Left" Margin="252.6,310,0,0" VerticalAlignment="Top" Width="65" Height="27"/>
-        <ListView x:Name="lvDepartment" ItemsSource ="{Binding DepList}" HorizontalAlignment="Stretch" Height="256" Margin="10,10,10,10" VerticalAlignment="Top" SelectedIndex="0">
+        <TextBox x:Name="tbFirstName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="126,22,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="136" FontSize="14"/>
+        <TextBox x:Name="tbFamilyName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="126,54,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" Width="136" FontSize="14"/>
+        <TextBox x:Name="tbFatherName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="126,86,0,0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top" Width="136" FontSize="14"/>
+        <TextBox x:Name="tbAge" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="125,120,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" FontSize="14" TextChanged="tbAge_TextChanged" RenderTransformOrigin="1.45,0.556"/>
+        <TextBox x:Name="tbDep" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="126,154,0,0" TextWrapping="Wrap" Text="Департамент" VerticalAlignment="Top" Width="136" FontSize="14"/>
+        <Button x:Name="btnChange" Content="Изменить" Grid.Column="1" HorizontalAlignment="Left" Margin="15,291,0,0" VerticalAlignment="Top" Width="110" Height="27"/>
+        <ListView x:Name="lvDepartment" ItemsSource ="{Binding DepList}" HorizontalAlignment="Stretch" Height="105" Margin="10,10,10,0" VerticalAlignment="Top" SelectedIndex="0">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="cmi_DepRemove" Header="Удалить" Command="{Binding RemoveItem}" 
@@ -53,10 +56,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" HorizontalAlignment="Left" Margin="252.6,278,0,0" VerticalAlignment="Top" Width="65" Height="27"/>
-        <Button x:Name="btDelete" Content="Удалить" Grid.Column="1" HorizontalAlignment="Left" Margin="252.6,342,0,0" VerticalAlignment="Top" Width="65" Height="27" Visibility="Hidden"/>
-        <Button x:Name="btnLoad" Content="Загрузить" HorizontalAlignment="Left" Margin="10,342,0,0" VerticalAlignment="Top" Width="150" Height="59"/>
-        <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Right" Margin="0,342,10.4,0" VerticalAlignment="Top" Width="150" Height="59"/>
+        <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" HorizontalAlignment="Left" Margin="15,259,0,0" VerticalAlignment="Top" Width="110" Height="27"/>
+        <Button x:Name="btDelete" Content="Удалить" Grid.Column="1" HorizontalAlignment="Left" Margin="253,342,-46,0" VerticalAlignment="Top" Width="65" Height="27" Visibility="Hidden"/>
+        <Button x:Name="btnLoad" Content="Загрузить" HorizontalAlignment="Left" Margin="15,225,0,0" VerticalAlignment="Top" Width="110" Height="27" Grid.Column="1" RenderTransformOrigin="2.461,1.077"/>
+        <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Right" Margin="0,193,147,0" VerticalAlignment="Top" Width="110" Height="27" Grid.Column="1"/>
+
 
     </Grid>
 </Window>

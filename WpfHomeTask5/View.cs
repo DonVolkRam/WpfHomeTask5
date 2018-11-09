@@ -16,7 +16,8 @@ namespace WpfHomeTask5
         int EmpIndex { get; set; }
 
         string FirstName { get; set; }
-        string LastName { get; set; }
+        string FamilyName { get; set; }
+        string FatherName { get; set; }
         string Age { get; set; }
         string Department { get; set; }
     }

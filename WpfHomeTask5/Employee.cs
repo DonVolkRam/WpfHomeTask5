@@ -31,13 +31,15 @@ namespace WpfHomeTask5
         /// </summary>
         public int Age { get; set; }
 
-        public int BirtDay { get; set; }
-        public int BirtMounth { get; set; }
-        public int BirtYear { get; set; }
+        public string BirthDate { get => $"{BirthYear,4}-{BirthMounth,2}-{BirthDay,2}";}
+        public int BirthDay { get; set; }
+        public int BirthMounth { get; set; }
+        public int BirthYear { get; set; }
         /// <summary>
         /// Департамент
         /// </summary>
         public string Department { get; set; }
+        public int DepartmentId { get; set; }
         /// <summary>
         /// Полная информация о сотруднике
         /// </summary>
@@ -57,7 +59,7 @@ namespace WpfHomeTask5
         /// <summary>
         /// класс для сериализации
         /// </summary>
-        Employee() { }
+        public Employee() { }
         /// <summary>
         /// Конструктор создающий случайного рабочего с возрастом от 18 и не превышающим 60
         /// и с заданным именем департамента
