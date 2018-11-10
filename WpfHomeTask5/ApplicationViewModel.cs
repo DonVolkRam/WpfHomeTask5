@@ -19,7 +19,7 @@ namespace WpfHomeTask5
                     Pooling=False";
         static int count;
         static SqlConnection connection = new SqlConnection(ConnectionString);
-
+        public static DataTable dataTable { get; set; }
         static SqlDataAdapter adapter = new SqlDataAdapter();
 
         static SqlCommand command = new SqlCommand(
@@ -39,7 +39,7 @@ namespace WpfHomeTask5
         {
             adapter.SelectCommand = command;
 
-            DataTable dataTable = new DataTable();
+            dataTable = new DataTable();
             adapter.Fill(dataTable);           
         }
 
