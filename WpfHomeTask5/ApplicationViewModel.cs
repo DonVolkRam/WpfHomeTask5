@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -12,17 +13,34 @@ namespace WpfHomeTask5
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
-        static string ConnectionString;
+        static string ConnectionString = @"  Data Source=(localdb)\MSSQLLocalDB;
+                    Initial Catalog=Lesson7;
+                    Integrated Security=True;
+                    Pooling=False";
         static int count;
+        static SqlConnection connection = new SqlConnection(ConnectionString);
+
+        static SqlDataAdapter adapter = new SqlDataAdapter();
+
+        static SqlCommand command = new SqlCommand(
+            "SELECT Id, FirstName, FamilyName, FatherName, BirthDate, Department, DepartmentId FROM Employee",
+            connection);
 
         static ApplicationViewModel()
         {
             ConnectionString =
                 @"  Data Source=(localdb)\MSSQLLocalDB;
-                    Initial Catalog=Departaments;
+                    Initial Catalog=Lesson7;
                     Integrated Security=True;
                     Pooling=False";
             count = 0;
+        }
+        public ApplicationViewModel()
+        {
+            adapter.SelectCommand = command;
+
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);           
         }
 
         public void NotifyPropertyChanged(string propName)
@@ -45,6 +63,10 @@ namespace WpfHomeTask5
                   }));
             }
         }
+
+
+
+
 
         static public void GenerateEmployee()
         {
@@ -74,8 +96,8 @@ namespace WpfHomeTask5
                     };
 
                     var sql = String.Format("INSERT INTO Employee (Id, FirstName, FamilyName, FatherName, " +
-                                                                "BirthDay, Department, DepartmentId)" +
-                                            "VALUES (N '{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')",
+                                                                "BirthDate, Department, DepartmentId)" +
+                                            "VALUES (N'{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')",
                                             count,
                                             worker.FirstName,
                                             worker.FamilyName,
@@ -137,7 +159,7 @@ namespace WpfHomeTask5
                                           $"{reader["FirstName"],10} | " +
                                           $"{reader["FamilyName"],15} | " +
                                           $"{reader["FatherName"],15} | " +
-                                          $"{reader["BirthDay"],12} | " +
+                                          $"{reader["BirthDate"],12} | " +
                                           $"{reader["Department"],20} | " +
                                           $"{reader["DepartmentId"],2} | ");                                          
                     }

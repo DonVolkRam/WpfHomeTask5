@@ -11,38 +11,18 @@
             <ColumnDefinition Width="385*"/>
             <ColumnDefinition Width="272*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnGenerate" Content="Создать случайный департамент" HorizontalAlignment="Stretch" Margin="15,323,147,0" VerticalAlignment="Top" Height="27" Grid.Column="1" RenderTransformOrigin="0.546,0.133"/>
+        <Button x:Name="btnGenerate" Content="Создать случайный департамент" HorizontalAlignment="Stretch" Margin="15.4,321,147.4,0" VerticalAlignment="Top" Height="27" Grid.Column="1" RenderTransformOrigin="0.546,0.133"/>
         <Label x:Name="lFirstName" Content="Имя" Grid.Column="1" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
         <Label x:Name="lFamilyName" Content="Фамилия" Grid.Column="1" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
         <Label x:Name="lFatherName" Content="Отчество" Grid.Column="1" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
         <Label x:Name="lAge" Content="Дата Рождения" Grid.Column="1" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Height="27" Width="115" FontSize="14"/>
         <Label x:Name="lDep" Content="Департамент" Grid.Column="1" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Height="27" Width="94" FontSize="14"/>
-        <ListView x:Name="lvEmployee" HorizontalAlignment="Stretch" Height="256" Margin="10,122,10,0" VerticalAlignment="Top">
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem x:Name="cmi_Change" Header="Переместить в ..." Command="{Binding AddNewItem}" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}}" GotFocus="cmi_change_GotFocus" ></MenuItem>
-                    <MenuItem x:Name="cmi_EmpRemove" Header="Удалить" Command="{Binding RemoveItem}" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, 
-                     Path=PlacementTarget.SelectedItem}" />
-                </ContextMenu>
-            </ListView.ContextMenu>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=FirstName}">Имя</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=FamilyName}">Фамилия</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=FatherName}">Отчество</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Age}">Дата Рождения</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Department}">Департамент</GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
         <TextBox x:Name="tbFirstName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="126,22,0,0" TextWrapping="Wrap" Text="Имя" VerticalAlignment="Top" Width="136" FontSize="14"/>
         <TextBox x:Name="tbFamilyName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="126,54,0,0" TextWrapping="Wrap" Text="Фамилия" VerticalAlignment="Top" Width="136" FontSize="14"/>
         <TextBox x:Name="tbFatherName" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="126,86,0,0" TextWrapping="Wrap" Text="Отчество" VerticalAlignment="Top" Width="136" FontSize="14"/>
         <TextBox x:Name="tbAge" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="125,120,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" FontSize="14" TextChanged="tbAge_TextChanged" RenderTransformOrigin="1.45,0.556"/>
         <TextBox x:Name="tbDep" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="126,154,0,0" TextWrapping="Wrap" Text="Департамент" VerticalAlignment="Top" Width="136" FontSize="14"/>
-        <Button x:Name="btnChange" Content="Изменить" Grid.Column="1" HorizontalAlignment="Left" Margin="15,291,0,0" VerticalAlignment="Top" Width="110" Height="27"/>
+        <Button x:Name="btnChange" Content="Изменить" Grid.Column="1" HorizontalAlignment="Left" Margin="15.4,289,0,0" VerticalAlignment="Top" Width="110" Height="27"/>
         <ListView x:Name="lvDepartment" ItemsSource ="{Binding DepList}" HorizontalAlignment="Stretch" Height="105" Margin="10,10,10,0" VerticalAlignment="Top" SelectedIndex="0">
             <ListView.ContextMenu>
                 <ContextMenu>
@@ -56,10 +36,28 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" HorizontalAlignment="Left" Margin="15,259,0,0" VerticalAlignment="Top" Width="110" Height="27"/>
+        <Button x:Name="btnAdd" Content="Добавить" Grid.Column="1" HorizontalAlignment="Left" Margin="15.4,257,0,0" VerticalAlignment="Top" Width="110" Height="27"/>
         <Button x:Name="btDelete" Content="Удалить" Grid.Column="1" HorizontalAlignment="Left" Margin="253,342,-46,0" VerticalAlignment="Top" Width="65" Height="27" Visibility="Hidden"/>
         <Button x:Name="btnLoad" Content="Загрузить" HorizontalAlignment="Left" Margin="15,225,0,0" VerticalAlignment="Top" Width="110" Height="27" Grid.Column="1" RenderTransformOrigin="2.461,1.077"/>
-        <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Right" Margin="0,193,147,0" VerticalAlignment="Top" Width="110" Height="27" Grid.Column="1"/>
+        <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Right" Margin="0,193,147.4,0" VerticalAlignment="Top" Width="110" Height="27" Grid.Column="1"/>
+        <DataGrid ItemsSource ="{Binding dataTable.DefaultView}" HorizontalAlignment="Left" Height="256" Margin="10,120,0,0" VerticalAlignment="Top" Width="366">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="idColumn" Binding="{Binding ID}" 
+                                    Header="ID" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="FirstNameColumn" Binding="{Binding FirstName}" 
+                                    Header="Имя" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="FamilyNameColumn" Binding="{Binding FamilyName}" 
+                                    Header="Фамилия" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="FatherNameColumn" Binding="{Binding FatherName}" 
+                                    Header="Отчество" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="BirthDateColumn" Binding="{Binding BirthDate}" 
+                                    Header="Дата рождения" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="DepartmentColumn" Binding="{Binding Department}" 
+                                    Header="Департамент" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="DepartmentIdColumn" Binding="{Binding DepartmentId}" 
+                                    Header="№ Деп." IsReadOnly="True" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </Grid>

@@ -26,9 +26,9 @@ namespace WpfHomeTask5
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this;
+            DataContext = new ApplicationViewModel();
 
-            //ApplicationViewModel.GenerateEmployee();
+//            ApplicationViewModel.GenerateEmployee();
             ApplicationViewModel.ReadToConsole();
             Presenter P = new Presenter();
             //Binding binding = new Binding();
@@ -44,9 +44,9 @@ namespace WpfHomeTask5
             btnAdd.Click += (s, e) => P.Add();
             btnChange.Click += (s, e) => P.Change();
             lvDepartment.SelectionChanged += (s, e) => P.SelectDep();
-            lvEmployee.SelectionChanged += (s, e) => P.SelectEmp();
-            cmi_DepRemove.Click += (s, e) => P.CMI_DepRemove();
-            cmi_EmpRemove.Click += (s, e) => P.CMI_EmpRemove();
+            //lvEmployee.SelectionChanged += (s, e) => P.SelectEmp();
+            //cmi_DepRemove.Click += (s, e) => P.CMI_DepRemove();
+            //cmi_EmpRemove.Click += (s, e) => P.CMI_EmpRemove();
             //cmi_change.Click += (s, e) => P.CMI_EmpChange();
             //DepList.Add(new Department());
             
