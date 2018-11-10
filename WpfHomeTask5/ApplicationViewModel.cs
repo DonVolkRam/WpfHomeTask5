@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WpfHomeTask5
 {
-    class ApplicationViewModel: INotifyPropertyChanged
+    class ApplicationViewModel : INotifyPropertyChanged
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -19,28 +19,47 @@ namespace WpfHomeTask5
                     Pooling=False";
         static int count;
         static SqlConnection connection = new SqlConnection(ConnectionString);
-        public static DataTable dataTable { get; set; }
-        static SqlDataAdapter adapter = new SqlDataAdapter();
+        SqlParameter parameter;
 
-        static SqlCommand command = new SqlCommand(
+        public DataTable dataTableEmployee { get; set; }
+        public DataTable dataTableDepartment { get; set; }
+        SqlDataAdapter adapterEmployee = new SqlDataAdapter();
+        SqlDataAdapter adapterDepartment = new SqlDataAdapter();
+        public object SelectedEmployee { get; set; }
+        public object SelectedDepartment { get; set; }
+        static SqlCommand commandSelectEmployee = new SqlCommand(
             "SELECT Id, FirstName, FamilyName, FatherName, BirthDate, Department, DepartmentId FROM Employee",
             connection);
+        static SqlCommand commandDeleteEmployee = new SqlCommand(
+            "DELETE FROM Employee WHERE ID = @ID",
+            connection);
+        static SqlCommand commandSelectDepartment = new SqlCommand(
+            "SELECT Id, Name FROM Department",
+            connection);
+        static SqlCommand commandDeleteDepartment = new SqlCommand(
+            "DELETE FROM Department WHERE ID = @ID",
+             connection);
 
         static ApplicationViewModel()
         {
-            ConnectionString =
-                @"  Data Source=(localdb)\MSSQLLocalDB;
-                    Initial Catalog=Lesson7;
-                    Integrated Security=True;
-                    Pooling=False";
             count = 0;
         }
         public ApplicationViewModel()
         {
-            adapter.SelectCommand = command;
+            adapterEmployee.SelectCommand = commandSelectEmployee;
+            dataTableEmployee = new DataTable();
+            adapterEmployee.Fill(dataTableEmployee);
 
-            dataTable = new DataTable();
-            adapter.Fill(dataTable);           
+            adapterDepartment.SelectCommand = commandSelectDepartment;
+            dataTableDepartment = new DataTable();
+            adapterDepartment.Fill(dataTableDepartment);
+
+            parameter = commandDeleteEmployee.Parameters.Add("@ID", SqlDbType.Int, 0, "ID");
+            parameter.SourceVersion = DataRowVersion.Original;
+
+            adapterEmployee.DeleteCommand = commandDeleteEmployee;
+            adapterDepartment.DeleteCommand = commandDeleteDepartment;
+
         }
 
         public void NotifyPropertyChanged(string propName)
@@ -57,17 +76,64 @@ namespace WpfHomeTask5
                 return addCommand ??
                   (addCommand = new RelayCommand(obj =>
                   {
-                      //Phone phone = new Phone();
-                      //Phones.Insert(0, phone);
-                      //SelectedPhone = phone;
+                      //DataRow newRow = dataTable.NewRow();
+                      //newRow.Rows.Add(editWindow.resultRow);
+                      //    adapter.Update(dataTable);
+
                   }));
             }
         }
 
+        private RelayCommand removeCommandEmployee;
+        public RelayCommand RemoveCommandEmployee
+        {
+            get
+            {
+                return removeCommandEmployee ??
+                  (removeCommandEmployee = new RelayCommand(obj =>
+                  {
+                      DataRowView rowView = (DataRowView)SelectedEmployee;
+                      rowView.Row.Delete();
+                      adapterEmployee.Update(dataTableEmployee);
+                  }, (obj) => dataTableEmployee.Rows.Count > 0));
+            }
+        }
 
+        static public void GenerateDepartment()
+        {
+            try
+            {
+                for (int i = 1; i <= 10; i++)
+                {
+                    var Dep = new Department
+                    {
+                        Name = $"Департамент_{i}",
+                    };
 
+                    var sql = String.Format("INSERT INTO Department (Id, Name) VALUES ('{0}', '{1}')",
+                                            i, Dep.Name);
 
+                    Console.WriteLine(sql);
 
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        connection.Open();
+
+                        SqlCommand command = new SqlCommand(sql, connection);
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("exit");
+            }
+        }
         static public void GenerateEmployee()
         {
             // Connection - Устанавливает подключение к источнику данных
@@ -75,14 +141,14 @@ namespace WpfHomeTask5
             // DataReader - Позволяет хранить и работать с данными независимо от БД
             // DataSet, DataTable - содержит данные, полученные из БД
             // DataAdapter - посредник между DataSet и источником данных
-          
+
             try
             {
                 var random = new Random();
                 for (int i = 0; i < 10; i++)
                 {
                     int temp = random.Next(0, 10);
-                    count = i+1;
+                    count = i + 1;
                     var worker = new Employee
                     {
                         FirstName = $"Имя_{random.Next(0, 100)}",
@@ -97,7 +163,7 @@ namespace WpfHomeTask5
 
                     var sql = String.Format("INSERT INTO Employee (Id, FirstName, FamilyName, FatherName, " +
                                                                 "BirthDate, Department, DepartmentId)" +
-                                            "VALUES (N'{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')",
+                                            "VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')",
                                             count,
                                             worker.FirstName,
                                             worker.FamilyName,
@@ -131,7 +197,7 @@ namespace WpfHomeTask5
                         #endregion
                     }
                 }
-               
+
             }
             catch (Exception e)
             {
@@ -140,7 +206,7 @@ namespace WpfHomeTask5
             finally
             {
                 Console.WriteLine("exit");
-            }                      
+            }
         }
         public static void ReadToConsole()
         {
@@ -161,7 +227,7 @@ namespace WpfHomeTask5
                                           $"{reader["FatherName"],15} | " +
                                           $"{reader["BirthDate"],12} | " +
                                           $"{reader["Department"],20} | " +
-                                          $"{reader["DepartmentId"],2} | ");                                          
+                                          $"{reader["DepartmentId"],2} | ");
                     }
                 }
             }
