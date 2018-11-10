@@ -11,15 +11,22 @@ namespace WpfHomeTask5
 {
     class ApplicationViewModel : INotifyPropertyChanged
     {
-
+        /// <summary>
+        /// Событие изменения состояний
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Строка подключения
+        /// </summary>
         static string ConnectionString = @"  Data Source=(localdb)\MSSQLLocalDB;
                     Initial Catalog=Lesson7;
                     Integrated Security=True;
                     Pooling=False";
         static int count;
-        static SqlConnection connection = new SqlConnection(ConnectionString);
-        SqlParameter parameter;
+        /// <summary>
+        /// Подключение к базе данных
+        /// </summary>
+        static SqlConnection connection = new SqlConnection(ConnectionString);       
 
         public DataTable dataTableEmployee { get; set; }
         public DataTable dataTableDepartment { get; set; }
@@ -54,7 +61,7 @@ namespace WpfHomeTask5
             dataTableDepartment = new DataTable();
             adapterDepartment.Fill(dataTableDepartment);
 
-            parameter = commandDeleteEmployee.Parameters.Add("@ID", SqlDbType.Int, 0, "ID");
+            SqlParameter parameter = commandDeleteEmployee.Parameters.Add("@ID", SqlDbType.Int, 0, "ID");
             parameter.SourceVersion = DataRowVersion.Original;
 
             adapterEmployee.DeleteCommand = commandDeleteEmployee;
@@ -66,9 +73,11 @@ namespace WpfHomeTask5
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
-
-        // команда добавления нового объекта
+     
         private RelayCommand addCommand;
+        /// <summary>
+        /// Добавление нового сотрудника
+        /// </summary>
         public RelayCommand AddCommand
         {
             get
@@ -85,6 +94,9 @@ namespace WpfHomeTask5
         }
 
         private RelayCommand removeCommandEmployee;
+        /// <summary>
+        /// Удаление сотрудника из базы
+        /// </summary>
         public RelayCommand RemoveCommandEmployee
         {
             get
@@ -98,7 +110,9 @@ namespace WpfHomeTask5
                   }, (obj) => dataTableEmployee.Rows.Count > 0));
             }
         }
-
+        /// <summary>
+        /// Создание 10 департаментов
+        /// </summary>
         static public void GenerateDepartment()
         {
             try
@@ -134,6 +148,10 @@ namespace WpfHomeTask5
                 Console.WriteLine("exit");
             }
         }
+
+        /// <summary>
+        /// Создание 10 случайных сотрудников
+        /// </summary>
         static public void GenerateEmployee()
         {
             // Connection - Устанавливает подключение к источнику данных
@@ -208,6 +226,9 @@ namespace WpfHomeTask5
                 Console.WriteLine("exit");
             }
         }
+        /// <summary>
+        /// Вывод сотрудников в консоль
+        /// </summary>
         public static void ReadToConsole()
         {
             try
